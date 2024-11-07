@@ -34,7 +34,8 @@ if st.button("Add Investigation"):
 ### Material Data Entry ###
 st.header("Material Data Entry")
 material_name = st.text_input("Material Name")
-material_type = st.selectbox("Material Type", ["Composite", "Single Material"])
+# Dropdown for Material Type with options in alphabetical order
+material_type = st.selectbox("Material Type", ["Aggregate", "Composite", "Paste", "Powder", "Slurry"])
 material_samples = st.text_area("Samples (comma-separated)")
 material_parameters = st.text_area("Parameters (comma-separated)")
 
