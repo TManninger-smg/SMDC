@@ -1,0 +1,111 @@
+import streamlit as st
+
+def main():
+    st.title("Fill Out Form")
+
+    # Main Form Section
+    st.header("Main Form")
+    title = st.text_input("Title*")
+    keywords = st.text_area("Keywords (up to 10)*")
+    description = st.text_area("Description - for human readers")
+    uploader = st.text_input("Uploader/Datahost/Firstauthor")
+    email = st.text_input("E-mail contact*")
+    contributors = st.text_area("Contributor(s) - optional place for Co-Authors etc")
+    date = st.text_input("Date - choose a year*")
+    identifier = st.text_input("Identifier* (e.g., DOI or repository link)")
+
+    # Dataset Sections
+    datasets = []
+    if "dataset_count" not in st.session_state:
+        st.session_state.dataset_count = 1
+
+    for i in range(1, st.session_state.dataset_count + 1):
+        st.subheader(f"Dataset{i} in my repository")
+
+        dataset_type = st.selectbox(
+            f"Pick one for Dataset{i}",
+            ["picture/graph", "table", "audio", "video"],
+            key=f"dataset_type_{i}"
+        )
+        filename = st.text_input(
+            f"Filename.ext for Dataset{i} (please write your filename and the extension)",
+            key=f"filename_{i}"
+        )
+
+        st.write("Table Structure")
+        if f"columns_{i}" not in st.session_state:
+            st.session_state[f"columns_{i}"] = []
+
+        col_name = st.text_input(
+            f"Column description for Dataset{i} (e.g., Compressive strength, Temperature, Identifier)",
+            key=f"col_name_{i}"
+        )
+        col_unit = st.text_input(
+            f"Entity of the column's data for Dataset{i} (e.g., mW/g, cm, N/mm^2)",
+            key=f"col_unit_{i}"
+        )
+
+        if st.button(f"+ Add Column for Dataset{i}"):
+            st.session_state[f"columns_{i}"].append((col_name, col_unit))
+
+        for idx, (name, unit) in enumerate(st.session_state[f"columns_{i}"]):
+            st.write(f"Column {idx + 1} for Dataset{i}: {name} ({unit})")
+
+        experiments = st.text_area(
+            f"Which experiments were done for Dataset{i} (to obtain that data)",
+            key=f"experiments_{i}"
+        )
+        materials = st.text_area(
+            f"Which materials were used for Dataset{i}",
+            key=f"materials_{i}"
+        )
+
+    # Add More Datasets
+    if st.button("+ Add Another Dataset"):
+        st.session_state.dataset_count += 1
+
+    # Additional Information Section
+    st.header("Additional Information")
+    temperature = st.selectbox(
+        "Temperature",
+        ["Room Temperature", "<10 °C", ">30 °C", "In the Data Table"]
+    )
+    user_defined = st.text_input("User-defined Temperature")
+    location = st.selectbox("Add Location", ["lab", "in the Data Table", "Coordinates"])
+    coordinates = st.text_input("Coordinates")
+
+    # Submit Button
+    if st.button("Submit"):
+        datasets_data = []
+        for i in range(1, st.session_state.dataset_count + 1):
+            datasets_data.append({
+                "type": st.session_state[f"dataset_type_{i}"],
+                "filename": st.session_state[f"filename_{i}"],
+                "columns": st.session_state[f"columns_{i}"],
+                "experiments": st.session_state[f"experiments_{i}"],
+                "materials": st.session_state[f"materials_{i}"],
+            })
+
+        submitted_data = {
+            "title": title,
+            "keywords": keywords,
+            "description": description,
+            "uploader": uploader,
+            "email": email,
+            "contributors": contributors,
+            "date": date,
+            "identifier": identifier,
+            "datasets": datasets_data,
+            "additional_info": {
+                "temperature": temperature,
+                "user_defined": user_defined,
+                "location": location,
+                "coordinates": coordinates,
+            }
+        }
+
+        st.success("Form Submitted Successfully!")
+        st.json(submitted_data)
+
+if __name__ == "__main__":
+    main()
