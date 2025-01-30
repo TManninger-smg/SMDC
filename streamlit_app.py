@@ -1,142 +1,185 @@
 import streamlit as st
 import pandas as pd
+import os
 
-# Initialize data storage for each entity
-investigations = []
-materials = []
-samples = []
-experiments = []
-datafiles = []
+st.cache_data.clear()
 
-st.title("Research Data Entry Application")
+def main():
+    st.title("Fill Out Form")
 
-### Investigation Data Entry ###
-st.header("Investigation Data Entry")
-name = st.text_input("Investigation Name")
-investigators = st.text_area("Investigators (comma-separated)")
-corresponding_author = st.text_input("Corresponding Author")
-dataset_list = st.text_area("Datasets (comma-separated)")
-materials_list = st.text_area("Materials or Composites (comma-separated)")
-publications = st.text_area("Publications (comma-separated)")
+    # Load Experiments Data
+    @st.cache_data
+    def load_experiments():
+        file_path = os.path.join(os.getcwd(), "Experiments.CSV")
+        st.write(f"Looking for file at: {file_path}")  # Debugging output
+        
+        if not os.path.exists(file_path):
+            st.error(f"Error: The file '{file_path}' was not found. Please ensure it is in the correct directory.")
+            return []
+        df = pd.read_csv(file_path)
+        df["Combined"] = df["Experiment_Type"] + " - " + df["Experiment_Description"] + " - " + df["Common_Experiment"]
+        return df["Combined"].tolist()
+    
+    experiment_options = load_experiments()
 
-if st.button("Add Investigation"):
-    investigation = {
-        "Name": name,
-        "Investigators": investigators.split(","),
-        "Corresponding_Author": corresponding_author,
-        "Datasets": dataset_list.split(","),
-        "Materials": materials_list.split(","),
-        "Publications": publications.split(",")
-    }
-    investigations.append(investigation)
-    st.success("Investigation added!")
+    # Main Form Section
+    st.header("Main Form")
+    title = st.text_input("Title*")
+    keywords = st.text_area("Keywords (up to 10)*")
+    description = st.text_area("Description - for human readers")
+    uploader = st.text_input("Uploader/Datahost/First author*")
+    email = st.text_input("E-mail contact*")
+    contributors = st.text_area("Contributor(s) - optional place for Co-Authors etc")
+    date = st.text_input("Date - choose a year*")
+    identifier = st.text_input("Identifier* (e.g., DOI or repository link)")
 
-### Material Data Entry ###
-st.header("Material Data Entry")
-material_name = st.text_input("Material Name")
-# Dropdown for Material Type with options in alphabetical order
-material_type = st.selectbox("Material Type", ["Aggregate", "Composite", "Paste", "Powder", "Slurry"])
-material_samples = st.text_area("Samples (comma-separated)")
-material_parameters = st.text_area("Parameters (comma-separated)")
+    # Dataset Sections
+    if "dataset_count" not in st.session_state:
+        st.session_state.dataset_count = 1
 
-if st.button("Add Material"):
-    material = {
-        "Name": material_name,
-        "Type": material_type,
-        "Samples": material_samples.split(","),
-        "Parameters": material_parameters.split(",")
-    }
-    materials.append(material)
-    st.success("Material added!")
+    for i in range(1, st.session_state.dataset_count + 1):
+        st.subheader(f"Dataset{i} in my repository")
 
-### Sample Data Entry ###
-st.header("Sample Data Entry")
-sample_name = st.text_input("Sample Name")
-sample_geometry = st.text_input("Geometry")
-sample_date = st.date_input("Sample Date")
-sample_parameters = st.text_area("Sample Parameters (comma-separated)")
-sample_experiments = st.text_area("Experiments (comma-separated)")
-from_sample = st.text_input("Derived from Sample")
-preparation_protocol = st.text_area("Preparation Protocol")
+        dataset_type = st.selectbox(
+            f"Pick one for Dataset{i}",
+            ["picture/graph/audio/video", "table", "folder with pictures/graphs/audios/videos"],
+            key=f"dataset_type_{i}"
+        )
+        filename = st.text_input(
+            f"Filename.ext for Dataset{i} (please write your filename and the extension)",
+            key=f"filename_{i}"
+        )
 
-if st.button("Add Sample"):
-    sample = {
-        "Name": sample_name,
-        "Geometry": sample_geometry,
-        "Date": sample_date,
-        "Parameters": sample_parameters.split(","),
-        "Experiments": sample_experiments.split(","),
-        "From Sample": from_sample,
-        "Preparation Protocol": preparation_protocol
-    }
-    samples.append(sample)
-    st.success("Sample added!")
+        if dataset_type == "table":
+            st.write("Table Structure")
 
-### Experiment Data Entry ###
-st.header("Experiment Data Entry")
-experiment_name = st.text_input("Experiment Name")
-experiment_type = st.text_input("Experiment Technique")
-experiment_parameters = st.text_area("Experimental Parameters (comma-separated)")
+            # Number of Entries Input
+            num_entries = st.text_input(
+                f"Number of entries (lines) for Dataset{i}",
+                key=f"num_entries_{i}"
+            )
+            
+            # Number of Columns Input
+            num_columns = st.number_input(
+                f"Number of Columns for Dataset{i}",
+                min_value=1, step=1, key=f"num_columns_{i}"
+            )
 
-if st.button("Add Experiment"):
-    experiment = {
-        "Name": experiment_name,
-        "Technique": experiment_type,
-        "Parameters": experiment_parameters.split(",")
-    }
-    experiments.append(experiment)
-    st.success("Experiment added!")
+            # Editable Table
+            if f"table_data_{i}" not in st.session_state:
+                st.session_state[f"table_data_{i}"] = pd.DataFrame(
+                    [["", "", "Factor"] for _ in range(num_columns)],
+                    columns=["Column Description", "Entity Description", "Role"]
+                )
+            else:
+                # Update the number of rows in the table dynamically
+                current_table = st.session_state[f"table_data_{i}"]
+                if len(current_table) != num_columns:
+                    st.session_state[f"table_data_{i}"] = pd.DataFrame(
+                        [["", "", "Factor"] for _ in range(num_columns)],
+                        columns=["Column Description", "Entity Description", "Role"]
+                    )
 
-### Datafile Data Entry ###
-st.header("Datafile Data Entry")
-datafile_name = st.text_input("Datafile Name")
-storage_type = st.selectbox("Storage Type", ["Local", "Remote"])
-storage_value = st.text_input("Storage Location/Value")
-storage_format = st.text_input("Format Type")
-storage_parameters = st.text_area("Storage Parameters (comma-separated)")
+            edited_table = st.data_editor(
+                st.session_state[f"table_data_{i}"],
+                key=f"editable_table_{i}"
+            )
 
-if st.button("Add Datafile"):
-    datafile = {
-        "Name": datafile_name,
-        "Storage Type": storage_type,
-        "Storage Value": storage_value,
-        "Format Type": storage_format,
-        "Parameters": storage_parameters.split(",")
-    }
-    datafiles.append(datafile)
-    st.success("Datafile added!")
+            # Ensure only "Factor" or "Response" are allowed in the "Role" column
+            if "Role" in edited_table.columns:
+                edited_table["Role"] = edited_table["Role"].apply(
+                    lambda x: x if x in ["Factor", "Response"] else "Factor"
+                )
 
-### Display and Download Section ###
-st.header("Data Overview and Export")
+            st.session_state[f"table_data_{i}"] = edited_table
+        else:
+            num_files = st.text_input(
+                f"Number of files for Dataset{i}",
+                key=f"num_files_{i}"
+            )
+            file_description = st.text_area(
+                f"Description of files for Dataset{i}",
+                key=f"file_description_{i}"
+            )
 
-# Function to download CSV
-def download_csv(data, filename):
-    df = pd.DataFrame(data)
-    csv = df.to_csv(index=False)
-    st.download_button(f"Download {filename}", data=csv, file_name=f"{filename}.csv")
+        experiments = st.multiselect(
+            f"Which experiments were done for Dataset{i} (to obtain that data)",
+            options=experiment_options,
+            key=f"experiments_{i}"
+        )
+        materials = st.text_area(
+            f"Which materials were used for Dataset{i}",
+            key=f"materials_{i}"
+        )
 
-# Display and download options for each entity
-if investigations:
-    st.subheader("Investigations")
-    st.dataframe(pd.DataFrame(investigations))
-    download_csv(investigations, "investigations.csv")
+    # Add More Datasets
+    if st.button("+ Add Another Dataset"):
+        st.session_state.dataset_count += 1
 
-if materials:
-    st.subheader("Materials")
-    st.dataframe(pd.DataFrame(materials))
-    download_csv(materials, "materials.csv")
+    # Additional Information Section
+    st.header("Additional Information")
+    temperature = st.selectbox(
+        "Temperature",
+        ["Room Temperature", "<10 °C", ">30 °C", "In the Data Table", "User-defined Temperature"]
+    )
 
-if samples:
-    st.subheader("Samples")
-    st.dataframe(pd.DataFrame(samples))
-    download_csv(samples, "samples.csv")
+    # Only show the text input for user-defined temperature when selected
+    if temperature == "User-defined Temperature":
+        user_defined = st.text_input("User-defined Temperature")
+    else:
+        user_defined = ""
 
-if experiments:
-    st.subheader("Experiments")
-    st.dataframe(pd.DataFrame(experiments))
-    download_csv(experiments, "experiments.csv")
+    location = st.selectbox("Add Location", ["lab", "in the Data Table", "Coordinates"])
 
-if datafiles:
-    st.subheader("Datafiles")
-    st.dataframe(pd.DataFrame(datafiles))
-    download_csv(datafiles, "datafiles.csv")
+    # Only show the text input for coordinates when "Coordinates" is selected
+    if location == "Coordinates":
+        coordinates = st.text_input("Coordinates")
+    else:
+        coordinates = ""
+
+    # Submit Button
+    if st.button("Submit"):
+        datasets_data = []
+        for i in range(1, st.session_state.dataset_count + 1):
+            if st.session_state[f"dataset_type_{i}"] == "table":
+                table_data = st.session_state[f"table_data_{i}"].to_dict(orient="records")
+                num_entries = st.session_state[f"num_entries_{i}"]
+            else:
+                table_data = {
+                    "num_files": st.session_state[f"num_files_{i}"],
+                    "file_description": st.session_state[f"file_description_{i}"]
+                }
+                num_entries = None
+
+            datasets_data.append({
+                "type": st.session_state[f"dataset_type_{i}"],
+                "filename": st.session_state[f"filename_{i}"],
+                "num_entries": num_entries,
+                "table": table_data,
+                "experiments": st.session_state[f"experiments_{i}"],
+                "materials": st.session_state[f"materials_{i}"]
+            })
+
+        submitted_data = {
+            "title": title,
+            "keywords": keywords,
+            "description": description,
+            "uploader": uploader,
+            "email": email,
+            "contributors": contributors,
+            "date": date,
+            "identifier": identifier,
+            "datasets": datasets_data,
+            "additional_info": {
+                "temperature": temperature,
+                "user_defined": user_defined,
+                "location": location,
+                "coordinates": coordinates,
+            }
+        }
+
+        st.success("Form Submitted Successfully!")
+        st.json(submitted_data)
+
+if __name__ == "__main__":
+    main()
