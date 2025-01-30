@@ -55,7 +55,7 @@ Other,Filler Material,Something considered a Filler Material but not in the List
 Calcium silicate hydrate (C-S-H),Hydration Product,Main binding phase in hydrated cement.
 Calcium hydroxide (portlandite),Hydration Product,Reacts with SCMs to improve properties.
 Other,Hydration Product,Something considered a Hydration Product but not in the List.
-Expanded polystyrene (EPS),Lightweight Aggregate,Recycled EPS beads for lightweight, insulating concrete.
+Expanded polystyrene (EPS),Lightweight Aggregate,Recycled EPS beads for lightweight insulating concrete.
 Expanded shale,Lightweight Aggregate,Aggregate used for lightweight durable concrete.
 Perlite,Lightweight Aggregate,Natural volcanic glass used for lightweight and insulating concrete.
 Vermiculite,Lightweight Aggregate,Mineral additive for thermal insulation and fire resistance.
@@ -68,7 +68,7 @@ Graphene,Nanomaterial,Improves strength, electrical conductivity and durability.
 Titanium dioxide (TiO2),Nanomaterial,Used for photocatalytic and self-cleaning properties.
 Titanium-based additives,Nanomaterial,Improves strength and enhances self-cleaning properties.
 Other,Nanomaterial,Something considered a Nanomaterial but not in the List.
-Epoxy resins,Polymer Material,Used in coatings adhesives, and repair mortars.
+Epoxy resins,Polymer Material,Used in coatings adhesives and repair mortars.
 Other,Polymer Material,Something considered a Polymer Material but not in the List.
 Steel reinforcement bars,Reinforcement,Standard reinforcement for structural concrete.
 Fibers (steel, glass, basalt),Reinforcement,Added to concrete to improve tensile strength and reduce cracking.
