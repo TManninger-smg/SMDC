@@ -1,14 +1,14 @@
-Material,Category,Description,
+Material,Category,Description
 Calcium carbonate,Additive,Used to modify cement paste and improve carbonation resistance.
 Self-healing agents,Additive,Encapsulated healing agents for repairing micro-cracks in concrete.
 Superabsorbent polymers (SAPs),Additive,Used for internal curing and water management in concrete.
 Aluminum powder,Additive,Used in autoclaved aerated concrete for creating air voids.
 Lithium carbonate,Additive,Reduces alkali-silica reaction in concrete.
 Recycled plastics,Additive,Used as filler or lightweight aggregate in sustainable concrete.
-Rubber particles,Additive,Derived from recycled tires, improves flexibility and damping properties.
+Rubber particles,Additive,Derived from recycled tires improves flexibility and damping properties.
 Bentonite clay,Additive,Used for rheology control and sealing properties in concrete.
 Bentonite clay,Additive,Enhances impermeability and rheology of mixes.
-Biochar,Additive,Charcoal-like material, improves durability and carbon sequestration.
+Biochar,Additive,Charcoal-like material improves durability and carbon sequestration.
 Ceramic waste,Additive,Recycled ceramics used as aggregate or filler.
 Iron oxide pigments,Additive,Used for aesthetic coloration of concrete.
 Phase-change materials (PCMs),Additive,Enhances thermal energy storage in concrete.
@@ -17,8 +17,8 @@ Strontium carbonate,Additive,Improves resistance to alkali-silica reaction (ASR)
 Zinc oxide,Additive,Enhances durability in aggressive environments.
 Other,Additive,Something considered an Additive but not in the List.
 Bio-based polymers,Additive,Sustainable alternatives for modifying concrete properties.
-Natural aggregate,Aggregate,Sand, gravel, and crushed stone used in concrete production.
-Lightweight aggregate,Aggregate,Materials like expanded clay, shale, or pumice for lightweight concrete.
+Natural aggregate,Aggregate,Sand gravel and crushed stone used in concrete production.
+Lightweight aggregate,Aggregate,Materials like expanded clay shale or pumice for lightweight concrete.
 Recycled concrete aggregate,Aggregate,Crushed concrete reused as aggregate in new concrete.
 Basalt aggregate,Aggregate,Crushed basalt rock for improved strength and durability.
 Quartz sand,Aggregate,High-purity silica sand used in specialized concrete mixes.
@@ -36,9 +36,9 @@ Sulfur cement,Binder,Resistant to aggressive chemical environments.
 Other,Binder,Something considered a Binder but not in the List.
 Asphalt binder,Bituminous Material,Used in concrete for pavements and flexible construction.
 Other,Bituminous Material,Something considered a Bituminous Material but not in the List.
-Portland cement,Cementitious Material,Standard binder for concrete, central in most studies.
+Portland cement,Cementitious Material,Standard binder for concrete central in most studies.
 Sulfate-resistant cement,Cementitious Material,Used in environments exposed to sulfate attack.
-Magnesium-based binders,Cementitious Material,Alternatives to Portland cement, with lower carbon emissions.
+Magnesium-based binders,Cementitious Material,Alternatives to Portland cement with lower carbon emissions.
 High-alumina cement,Cementitious Material,Specialty cement for refractory and high-strength applications.
 Calcium aluminate cement,Cementitious Material,High-performance cement with refractory properties.
 Calcium sulfoaluminate cement,Cementitious Material,Low-carbon alternative binder, quick setting properties.
@@ -57,18 +57,18 @@ Calcium hydroxide (portlandite),Hydration Product,Reacts with SCMs to improve pr
 Other,Hydration Product,Something considered a Hydration Product but not in the List.
 Expanded polystyrene (EPS),Lightweight Aggregate,Recycled EPS beads for lightweight, insulating concrete.
 Expanded shale,Lightweight Aggregate,Aggregate used for lightweight, durable concrete.
-Perlite,Lightweight Aggregate,Natural volcanic glass, used for lightweight and insulating concrete.
+Perlite,Lightweight Aggregate,Natural volcanic glass used for lightweight and insulating concrete.
 Vermiculite,Lightweight Aggregate,Mineral additive for thermal insulation and fire resistance.
 Other,Lightweight Aggregate,Something considered a Lightweight Aggregate but not in the List.
 Colloidal silica,Nanomaterial,Improves durability and pore refinement.
-Nano-silica,Nanomaterial,Improves microstructure, strength, and durability.
+Nano-silica,Nanomaterial,Improves microstructure strength, and durability.
 Carbon black,Nanomaterial,Enhances electrical conductivity for self-sensing concrete.
 Carbon nanotubes,Nanomaterial,Used for enhancing tensile strength and durability at the nanoscale.
-Graphene,Nanomaterial,Improves strength, electrical conductivity, and durability.
-Titanium dioxide (TiO?),Nanomaterial,Used for photocatalytic and self-cleaning properties.
+Graphene,Nanomaterial,Improves strength electrical conductivity and durability.
+Titanium dioxide (TiO2),Nanomaterial,Used for photocatalytic and self-cleaning properties.
 Titanium-based additives,Nanomaterial,Improves strength and enhances self-cleaning properties.
 Other,Nanomaterial,Something considered a Nanomaterial but not in the List.
-Epoxy resins,Polymer Material,Used in coatings, adhesives, and repair mortars.
+Epoxy resins,Polymer Material,Used in coatings adhesives, and repair mortars.
 Other,Polymer Material,Something considered a Polymer Material but not in the List.
 Steel reinforcement bars,Reinforcement,Standard reinforcement for structural concrete.
 Fibers (steel, glass, basalt),Reinforcement,Added to concrete to improve tensile strength and reduce cracking.
@@ -80,21 +80,21 @@ Cellulose fibers,Reinforcement,Enhances durability and reduces shrinkage crackin
 Polyvinyl alcohol (PVA) fibers,Reinforcement,Used in engineered cementitious composites (ECC).
 Recycled wood fibers,Reinforcement,Used in eco-friendly concrete mixes.
 Other,Reinforcement,Something considered a Reinforcement Material but not in the List.
-Fly ash,Supplementary Cementitious Material (SCM),By-product of coal combustion, used as a partial cement replacement.
-Slag cement (GGBFS),Supplementary Cementitious Material (SCM),Ground granulated blast furnace slag, enhances strength and durability.
-Silica fume,Supplementary Cementitious Material (SCM),Ultrafine by-product, improves strength and reduces permeability.
+Fly ash,Supplementary Cementitious Material (SCM),By-product of coal combustion used as a partial cement replacement.
+Slag cement (GGBFS),Supplementary Cementitious Material (SCM),Ground granulated blast furnace slag enhances strength and durability.
+Silica fume,Supplementary Cementitious Material (SCM),Ultrafine by-product improves strength and reduces permeability.
 Pozzolanic materials,Supplementary Cementitious Material (SCM),Reacts with calcium hydroxide to improve properties of concrete.
-Blast furnace slag,Supplementary Cementitious Material (SCM),Industrial by-product, ground for strength improvement.
+Blast furnace slag,Supplementary Cementitious Material (SCM),Industrial by-product ground for strength improvement.
 Metakaolin,Supplementary Cementitious Material (SCM),Calcined clay, enhances durability and strength.
 Fumed silica,Supplementary Cementitious Material (SCM),Enhances strength and reduces porosity.
-Kaolinite clay,Supplementary Cementitious Material (SCM),Natural clay material, calcined for pozzolanic properties.
+Kaolinite clay,Supplementary Cementitious Material (SCM),Natural clay material calcined for pozzolanic properties.
 Natural pozzolans,Supplementary Cementitious Material (SCM),Includes volcanic ash and other natural materials.
 Rice husk ash,Supplementary Cementitious Material (SCM),Agricultural by-product with pozzolanic properties.
-Palm oil fuel ash (POFA),Supplementary Cementitious Material (SCM),By-product of palm oil industry, used as cement replacement.
+Palm oil fuel ash (POFA),Supplementary Cementitious Material (SCM),By-product of palm oil industry used as cement replacement.
 Recycled glass powder,Supplementary Cementitious Material (SCM),Finely ground glass for strength enhancement.
 Zeolites,Supplementary Cementitious Material (SCM),Improves adsorption and durability in concrete.
-Sewage sludge ash,Supplementary Cementitious Material (SCM),By-product from wastewater treatment plants, used as SCM.
-Sugarcane bagasse ash,Supplementary Cementitious Material (SCM),By-product of sugarcane industry, enhances strength and durability.
+Sewage sludge ash,Supplementary Cementitious Material (SCM),By-product from wastewater treatment plants used as SCM.
+Sugarcane bagasse ash,Supplementary Cementitious Material (SCM),By-product of sugarcane industry enhances strength and durability.
 Wood ash,Supplementary Cementitious Material (SCM),Waste ash from wood combustion used in concrete mixes.
 Other,Supplementary Cementitious Material (SCM),Something considered a SCM but not in the List.
 Silane,Surface Treatment,Improves hydrophobic properties and durability of concrete surfaces.
