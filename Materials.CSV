@@ -71,7 +71,7 @@ Other,Nanomaterial,Something considered a Nanomaterial but not in the List.
 Epoxy resins,Polymer Material,Used in coatings adhesives and repair mortars.
 Other,Polymer Material,Something considered a Polymer Material but not in the List.
 Steel reinforcement bars,Reinforcement,Standard reinforcement for structural concrete.
-Fibers (steel, glass, basalt),Reinforcement,Added to concrete to improve tensile strength and reduce cracking.
+Fibers (steel glass basalt),Reinforcement,Added to concrete to improve tensile strength and reduce cracking.
 High-strength steel strands,Reinforcement,Used in prestressed and post-tensioned concrete applications.
 Polypropylene fibers,Reinforcement,Synthetic fibers for enhanced durability and crack control.
 Synthetic fibers (e.g. nylon),Reinforcement,Enhances flexural strength and crack control.
