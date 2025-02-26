@@ -5,7 +5,7 @@ st.cache_data.clear()
 
 def main():
     st.title("Fill Out Form")
-
+streamlit run app.py --server.port 8080 --server.headless true
     # Main Form Section
     st.header("Main Form")
     title = st.text_input("Title*")

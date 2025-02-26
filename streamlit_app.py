@@ -11,16 +11,38 @@ def main():
     @st.cache_data
     def load_experiments():
         file_path = os.path.join(os.getcwd(), "Experiments.CSV")
-        st.write(f"Looking for file at: {file_path}")  # Debugging output
-        
+        st.write(f"Looking for file at: {file_path}")
+
         if not os.path.exists(file_path):
             st.error(f"Error: The file '{file_path}' was not found. Please ensure it is in the correct directory.")
             return []
         df = pd.read_csv(file_path)
         df["Combined"] = df["Experiment_Type"] + " - " + df["Experiment_Description"] + " - " + df["Common_Experiment"]
         return df["Combined"].tolist()
-    
+
     experiment_options = load_experiments()
+
+    # Load Materials Data
+    @st.cache_data
+    def load_materials():
+        file_path = os.path.join(os.getcwd(), "Materials.CSV")
+        st.write(f"Looking for file at: {file_path}")
+
+        if not os.path.exists(file_path):
+            st.error(f"Error: The file '{file_path}' was not found. Please ensure it is in the correct directory.")
+            return []
+
+        df = pd.read_csv(file_path)
+        st.write("Loaded columns:", df.columns.tolist())  # Debugging line
+
+        if "Material" not in df.columns or "Description" not in df.columns:
+            st.error(f"Error: Expected columns 'Material' and 'Description' not found in Materials.CSV")
+            return []
+        
+        df["Combined"] = df["Material"] + " - " + df["Description"]
+        return df["Combined"].tolist()
+
+    material_options = load_materials()
 
     # Main Form Section
     st.header("Main Form")
@@ -52,67 +74,35 @@ def main():
 
         if dataset_type == "table":
             st.write("Table Structure")
+            num_entries = st.text_input(f"Number of entries (lines) for Dataset{i}", key=f"num_entries_{i}")
+            num_columns = st.number_input(f"Number of Columns for Dataset{i}", min_value=1, step=1, key=f"num_columns_{i}")
 
-            # Number of Entries Input
-            num_entries = st.text_input(
-                f"Number of entries (lines) for Dataset{i}",
-                key=f"num_entries_{i}"
-            )
-            
-            # Number of Columns Input
-            num_columns = st.number_input(
-                f"Number of Columns for Dataset{i}",
-                min_value=1, step=1, key=f"num_columns_{i}"
-            )
-
-            # Editable Table
             if f"table_data_{i}" not in st.session_state:
                 st.session_state[f"table_data_{i}"] = pd.DataFrame(
                     [["", "", "Factor"] for _ in range(num_columns)],
                     columns=["Column Description", "Entity Description", "Role"]
                 )
-            else:
-                # Update the number of rows in the table dynamically
-                current_table = st.session_state[f"table_data_{i}"]
-                if len(current_table) != num_columns:
-                    st.session_state[f"table_data_{i}"] = pd.DataFrame(
-                        [["", "", "Factor"] for _ in range(num_columns)],
-                        columns=["Column Description", "Entity Description", "Role"]
-                    )
-
             edited_table = st.data_editor(
                 st.session_state[f"table_data_{i}"],
                 key=f"editable_table_{i}"
             )
-
-            # Ensure only "Factor" or "Response" are allowed in the "Role" column
-            if "Role" in edited_table.columns:
-                edited_table["Role"] = edited_table["Role"].apply(
-                    lambda x: x if x in ["Factor", "Response"] else "Factor"
-                )
-
+            edited_table["Role"] = edited_table["Role"].apply(lambda x: x if x in ["Factor", "Response"] else "Factor")
             st.session_state[f"table_data_{i}"] = edited_table
         else:
-            num_files = st.text_input(
-                f"Number of files for Dataset{i}",
-                key=f"num_files_{i}"
-            )
-            file_description = st.text_area(
-                f"Description of files for Dataset{i}",
-                key=f"file_description_{i}"
-            )
+            num_files = st.text_input(f"Number of files for Dataset{i}", key=f"num_files_{i}")
+            file_description = st.text_area(f"Description of files for Dataset{i}", key=f"file_description_{i}")
 
         experiments = st.multiselect(
             f"Which experiments were done for Dataset{i} (to obtain that data)",
             options=experiment_options,
             key=f"experiments_{i}"
         )
-        materials = st.text_area(
+        materials = st.multiselect(
             f"Which materials were used for Dataset{i}",
+            options=material_options,
             key=f"materials_{i}"
         )
 
-    # Add More Datasets
     if st.button("+ Add Another Dataset"):
         st.session_state.dataset_count += 1
 
@@ -122,20 +112,9 @@ def main():
         "Temperature",
         ["Room Temperature", "<10 °C", ">30 °C", "In the Data Table", "User-defined Temperature"]
     )
-
-    # Only show the text input for user-defined temperature when selected
-    if temperature == "User-defined Temperature":
-        user_defined = st.text_input("User-defined Temperature")
-    else:
-        user_defined = ""
-
+    user_defined = st.text_input("User-defined Temperature") if temperature == "User-defined Temperature" else ""
     location = st.selectbox("Add Location", ["lab", "in the Data Table", "Coordinates"])
-
-    # Only show the text input for coordinates when "Coordinates" is selected
-    if location == "Coordinates":
-        coordinates = st.text_input("Coordinates")
-    else:
-        coordinates = ""
+    coordinates = st.text_input("Coordinates") if location == "Coordinates" else ""
 
     # Submit Button
     if st.button("Submit"):
