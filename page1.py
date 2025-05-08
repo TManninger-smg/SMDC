@@ -6,6 +6,7 @@ import streamlit as st
 import pydantic
 from enum import Enum
 import json # Add this import
+import pandas as pd # Add pandas import
 
 # Custom JSON encoder to handle sets
 class SetEncoder(json.JSONEncoder):
@@ -33,19 +34,19 @@ class Datatype(str,Enum):
     audio = "audio"
     video = "video"
 
-class MaterialType(str,Enum):
-    concrete= "concrete"
-    mortar= "mortar"
-    paste= "paste"
-    powder= "powder"
+# Function to create Enum from Excel
+def create_material_enum_from_excel(excel_path: str, column_name: str) -> type:
+    try:
+        df = pd.read_csv(excel_path)
+        material_names = df[column_name].dropna().unique()
+        enum_members = {str(name).replace(" ", "_").lower(): str(name) for name in material_names if str(name)}
+        return Enum('MaterialType', enum_members) if enum_members else Enum('MaterialType', {'default': 'default'})
+    except Exception as e:
+        st.error(f"Error processing file '{excel_path}': {e}. Using default MaterialType.")
+        return Enum('MaterialType', {'default': 'default'})
 
-class ExperimentType(str,Enum):
-    compressive_strength = "compressive_strength"
-    flexural_strength = "flexural_strength"
-    tensile_strength = "tensile_strength"
-    shrinkage = "shrinkage"
-    workability = "workability"
-    durability = "durability"
+MaterialType = create_material_enum_from_excel("Materials.csv", "Material")
+ExperimentType = create_material_enum_from_excel("Experiments.csv", "Experiment_Type")
 
 class DataSet1(BaseModel):
     pick_dataset_type: Datatype
